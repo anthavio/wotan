@@ -6,7 +6,7 @@ import net.anthavio.httl.HttpSender;
 import net.anthavio.httl.HttpURLSender;
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.SenderResponse;
-import net.anthavio.wotan.client.BasicResponse.Status;
+import net.anthavio.wotan.client.WotanResponse.Status;
 import net.anthavio.wotan.client.account.AccountGroup;
 import net.anthavio.wotan.client.clan.ClanGroup;
 import net.anthavio.wotan.client.encyclopedia.EncyclopediaGroup;
@@ -35,10 +35,28 @@ public class WotanClient {
 	}
 
 	public WotanClient(WotanSettings settings) {
+		this(settings, new HttpURLSender(settings.getServerUrl()));
+	}
+
+	public WotanClient(WotanSettings settings, HttpSender sender) {
+		if (settings == null) {
+			throw new IllegalArgumentException("Null settings");
+		}
 		this.settings = settings;
-		this.sender = new HttpURLSender(settings.getBaseUrl());
+
+		if (sender == null) {
+			throw new IllegalArgumentException("Null sender");
+		}
+		this.sender = sender;
+
 		this.mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		//SimpleModule testModule = new SimpleModule("MyModule", new Version(1, 0, 0, null)).addDeserializer(MyType.class,
+		//		new MyTypeDeserializer());
+	}
+
+	public WotanSettings getSettings() {
+		return settings;
 	}
 
 	public AccountGroup account() {
@@ -57,12 +75,18 @@ public class WotanClient {
 		return new RatingsGroup(this);
 	}
 
-	public <T extends BasicResponse> T execute(AbstractRequest request, Class<T> responseClass) {
-		SenderRequest sr = request.toSenderRequest();
+	public <T extends WotanResponse> T execute(WotanRequest<?, T> request) {
+		SenderRequest sr = request.buildRequest();
 		sr.addParameter("application_id", settings.getApplicationId());
+
+		if (request.getLanguage() == null && settings.getLanguage() != null) {
+			sr.addParameter("language", settings.getLanguage().getCode());
+		}
+
 		SenderResponse response = this.sender.execute(sr);
+
 		try {
-			T value = mapper.readValue(response.getStream(), responseClass);
+			T value = mapper.readValue(response.getStream(), request.getConfig().getResponseClass());
 			if (value.getStatus() == Status.error) {
 				throw new WotanException(value.getError());
 			}

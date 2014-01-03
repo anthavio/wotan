@@ -2,7 +2,7 @@ package net.anthavio.wotan.client.account;
 
 import java.util.List;
 
-import net.anthavio.wotan.client.BasicResponse;
+import net.anthavio.wotan.client.WotanResponse;
 import net.anthavio.wotan.client.JsonStringBuilder;
 
 /**
@@ -10,13 +10,13 @@ import net.anthavio.wotan.client.JsonStringBuilder;
  * @author martin.vanek
  *
  */
-public class AccountListResponse extends BasicResponse {
+public class AccountListResponse extends WotanResponse {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer count;
 
-	private List<Account> data;
+	private List<AccountStub> data;
 
 	public Integer getCount() {
 		return count;
@@ -26,11 +26,11 @@ public class AccountListResponse extends BasicResponse {
 		this.count = count;
 	}
 
-	public List<Account> getData() {
+	public List<AccountStub> getData() {
 		return data;
 	}
 
-	public void setData(List<Account> data) {
+	public void setData(List<AccountStub> data) {
 		this.data = data;
 	}
 
@@ -39,7 +39,7 @@ public class AccountListResponse extends BasicResponse {
 		return JsonStringBuilder.toString(this, true);
 	}
 
-	public static class Account {
+	public static class AccountStub {
 
 		private String nickname;
 
@@ -61,6 +61,11 @@ public class AccountListResponse extends BasicResponse {
 
 		public void setId(Long id) {
 			this.id = id;
+		}
+
+		@Override
+		public String toString() {
+			return JsonStringBuilder.toString(this, true);
 		}
 
 	}

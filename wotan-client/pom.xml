@@ -12,7 +12,7 @@
 	<artifactId>wotan-client</artifactId>
 
 	<properties>
-		<httclient.version>4.3.1</httclient.version>
+		<httclient.version>4.2.3</httclient.version>
 	</properties>
 
 	<dependencies>

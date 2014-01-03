@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author martin.vanek
  *
  */
-public class BasicResponse implements Serializable {
+public class WotanResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,11 @@ public class BasicResponse implements Serializable {
 
 	public void setError(ErrorDetails error) {
 		this.error = error;
+	}
+
+	@Override
+	public String toString() {
+		return "WotanResponse [status=" + status + ", error=" + error + "]";
 	}
 
 	public static class ErrorDetails implements Serializable {

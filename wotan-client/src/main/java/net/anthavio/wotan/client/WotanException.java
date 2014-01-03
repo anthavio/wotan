@@ -1,6 +1,6 @@
 package net.anthavio.wotan.client;
 
-import net.anthavio.wotan.client.BasicResponse.ErrorDetails;
+import net.anthavio.wotan.client.WotanResponse.ErrorDetails;
 
 /**
  * 

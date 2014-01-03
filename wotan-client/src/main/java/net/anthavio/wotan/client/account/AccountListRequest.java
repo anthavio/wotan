@@ -1,8 +1,8 @@
 package net.anthavio.wotan.client.account;
 
 import net.anthavio.httl.SenderRequest;
-import net.anthavio.httl.SenderRequest.Method;
-import net.anthavio.wotan.client.AbstractRequest;
+import net.anthavio.httl.rest.MethodConfig;
+import net.anthavio.wotan.client.WotanRequest;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -12,27 +12,47 @@ import org.apache.commons.lang.StringUtils;
  * @author martin.vanek
  *
  */
-public class AccountListRequest extends AbstractRequest {
+public class AccountListRequest extends WotanRequest<AccountListRequest, AccountListResponse> {
 
 	private static final long serialVersionUID = 1L;
+
+	public static final MethodConfig<AccountListResponse> list = //
+	MethodConfig.GET("/wot/account/list/", AccountListResponse.class);
 
 	private String search;
 
 	private Integer limit;
 
-	private String[] fields;
-
 	public AccountListRequest(String search) {
+		super(list);
 		this.search = search;
 	}
 
-	public String getUrlPath() {
-		return "/wot/account/list/";
+	public String getSearch() {
+		return search;
+	}
+
+	public AccountListRequest setSearch(String search) {
+		this.search = search;
+		return this;
+	}
+
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public AccountListRequest setLimit(Integer limit) {
+		this.limit = limit;
+		return this;
 	}
 
 	@Override
-	public SenderRequest toSenderRequest() {
-		SenderRequest request = new SenderRequest(Method.GET, getUrlPath());
+	protected AccountListRequest getSelf() {
+		return this;
+	}
+
+	@Override
+	protected void addParameters(SenderRequest request) {
 		if (StringUtils.isBlank(search)) {
 			throw new IllegalArgumentException("Blank search");
 		}
@@ -45,16 +65,6 @@ public class AccountListRequest extends AbstractRequest {
 			request.addParameter("limit", limit.intValue());
 		}
 
-		if (fields != null && fields.length != 0) {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < fields.length; i++) {
-				sb.append(fields[i]);
-				if (i < fields.length - 1) {
-					sb.append(',');
-				}
-			}
-		}
-		return request;
 	}
 
 }
