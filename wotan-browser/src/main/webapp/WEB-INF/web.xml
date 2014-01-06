@@ -4,23 +4,13 @@
          id="Conservatory" version="2.5">
 
 	<context-param>
-		<param-name>locatorFactorySelector</param-name>
-		<param-value>classpath*:spring-locator.xml</param-value>
-	</context-param>
-	
-	<context-param>
-		<param-name>parentContextKey</param-name>
-		<param-value>conserv-services</param-value>
-	</context-param>
-
-	<context-param>
 		<param-name>contextClass</param-name>
 		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 	</context-param>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>net.anthavio.conserv.web.WebappSpringConfig</param-value>
+		<param-value>net.anthavio.wotan.web.WebappSpringConfig</param-value>
 	</context-param>
 	
 	<listener>
@@ -63,26 +53,6 @@
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>H2Console</servlet-name>
-		<servlet-class>org.h2.server.web.WebServlet</servlet-class>
-		<!--
-		<init-param>
-			<param-name>webAllowOthers</param-name>
-			<param-value></param-value>
-		</init-param>
-		<init-param>
-			<param-name>trace</param-name>
-			<param-value></param-value>
-		</init-param>
-		-->
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>H2Console</servlet-name>
-		<url-pattern>/h2console/*</url-pattern>
-	</servlet-mapping>
-
 	<context-param>
 		<description>Vaadin Production Mode</description>
 		<param-name>productionMode</param-name>
@@ -93,12 +63,12 @@
 		<servlet-name>VaadinApplication</servlet-name>
 		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
 		<init-param>
-			<param-name>beanName</param-name>
-			<param-value>ConservVaadinUI</param-value>
-		</init-param>
-		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>WEB-INF/spring-vaadin.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>beanName</param-name>
+			<param-value>WotanVaadinUI</param-value>
 		</init-param>
 		<!--
 		<init-param>

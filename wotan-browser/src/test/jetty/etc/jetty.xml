@@ -14,6 +14,7 @@
 <!-- See start.ini file for the default configuraton files           -->
 <!-- =============================================================== -->
 
+
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
 
 	<!-- =========================================================== -->
@@ -35,12 +36,8 @@
 	<Call name="addConnector">
 		<Arg>
 			<New class="org.eclipse.jetty.server.nio.SelectChannelConnector">
-				<Set name="host">
-					<Property name="jetty.host" />
-				</Set>
-				<Set name="port">
-					<Property name="jetty.port" default="8080" />
-				</Set>
+				<Set name="host"><Property name="jetty.host" /></Set>
+				<Set name="port"><Property name="jetty.port" default="8080" /></Set>
 				<Set name="maxIdleTime">300000</Set>
 				<Set name="Acceptors">2</Set>
 				<Set name="statsOn">false</Set>
@@ -59,8 +56,7 @@
 			<Set name="handlers">
 				<Array type="org.eclipse.jetty.server.Handler">
 					<Item>
-						<New id="Contexts"
-							class="org.eclipse.jetty.server.handler.ContextHandlerCollection" />
+						<New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection" />
 					</Item>
 					<Item>
 						<New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler" />
@@ -73,7 +69,8 @@
 	<New class="net.anthavio.jetty.JettyWebAppDeployer">
 		<Arg><Ref id="Contexts" /></Arg>
 		<Set name="contextPath">/wotan</Set>
-		<Set name="webAppDir"><Property name="jetty.home" default="." />/webapps/wotan</Set>
+		<Set name="webAppDir"><Property name="jetty.home" default="." />/../../../src/main/webapp
+		</Set>
 		<Set name="defaultsDescriptor"><Property name="jetty.home" default="." />/etc/webdefault.xml</Set>
 		<!-- <Set name="configurationClasses"><Ref id="PlusConfig" /></Set> -->
 		<Call name="setAttribute">

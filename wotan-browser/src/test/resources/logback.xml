@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="10 seconds">
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+			<pattern>%d|%-10t|%-5p|%c{40}: %m%n</pattern>
+		</encoder>
+
+	</appender>
+
+	<logger name="org.eclipse.jetty">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.apache.commons">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.apache.http.client">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.apache.http.wire">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.security">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<logger name="net.anthavio">
+		<level value="debug" />
+	</logger>
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>
