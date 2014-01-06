@@ -1,5 +1,9 @@
 package net.anthavio.wotan.web.vaadin.view;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.context.annotation.Scope;
+
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.EmailValidator;
@@ -12,21 +16,17 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
-
 /**
  * @author xpoft
  */
 @org.springframework.stereotype.Component
 @Scope("prototype")
 public class SimpleForm extends VerticalLayout {
-	
+
 	private static final String COMMON_FIELD_WIDTH = "12em";
 
 	@PostConstruct
-	public void PostConstruct() {
+	public void init() {
 		User user = new User();
 
 		setCaption("Simple form");
@@ -47,17 +47,17 @@ public class SimpleForm extends VerticalLayout {
 		email.addValidator(new EmailValidator("Not valid email"));
 		email.setNullRepresentation("");
 		email.setImmediate(true);
-		
+
 		DateField date = new DateField("Date");
 		date.setDateFormat("yyyy-MM-dd");
 		date.setRequired(true);
 		date.setRequiredError("Set a frickin date!");
-		
+
 		final BeanFieldGroup<User> fieldGroup = new BeanFieldGroup<User>(User.class);
 		fieldGroup.setItemDataSource(new BeanItem<User>(user));
 		fieldGroup.bind(name, "name");
 		fieldGroup.bind(email, "email");
-		fieldGroup.bind(date, "date");		
+		fieldGroup.bind(date, "date");
 
 		// The cancel / apply buttons
 		HorizontalLayout buttons = new HorizontalLayout();

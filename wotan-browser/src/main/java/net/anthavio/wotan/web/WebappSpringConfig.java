@@ -14,6 +14,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  *
  */
 @Configuration
+//@ComponentScan(basePackageClasses = WebappSpringConfig.class, excludeFilters = @ComponentScan.Filter(value = Configuration.class, type = FilterType.ANNOTATION))
 //@PropertySource("classpath:wotan.properties")
 public class WebappSpringConfig {
 

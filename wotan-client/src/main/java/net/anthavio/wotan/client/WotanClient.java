@@ -1,5 +1,6 @@
 package net.anthavio.wotan.client;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 import net.anthavio.httl.HttpSender;
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author martin.vanek
  *
  */
-public class WotanClient {
+public class WotanClient implements Closeable {
 
 	private final WotanSettings settings;
 
@@ -94,5 +95,9 @@ public class WotanClient {
 		} catch (IOException iox) {
 			throw new WotanException(iox);
 		}
+	}
+
+	public void close() {
+		sender.close();
 	}
 }
