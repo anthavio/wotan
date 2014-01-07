@@ -5,6 +5,7 @@ import java.util.Date;
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
 import net.anthavio.wotan.client.AuthenticatedRequest;
+import net.anthavio.wotan.client.WotanClient;
 
 /**
  * 
@@ -28,8 +29,8 @@ public class NeighborsRatingsRequest extends AuthenticatedRequest<NeighborsRatin
 
 	private Integer limit;
 
-	public NeighborsRatingsRequest(long account_id, long... additional_ids) {
-		super(config, account_id, additional_ids);
+	public NeighborsRatingsRequest(WotanClient client, long account_id, long... additional_ids) {
+		super(config, client, account_id, additional_ids);
 	}
 
 	public RatingType getType() {

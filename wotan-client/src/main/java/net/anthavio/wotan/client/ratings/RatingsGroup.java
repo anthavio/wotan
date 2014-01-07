@@ -1,11 +1,7 @@
 package net.anthavio.wotan.client.ratings;
 
-import java.util.List;
-import java.util.Map;
-
 import net.anthavio.wotan.client.AbstractGroup;
 import net.anthavio.wotan.client.WotanClient;
-import net.anthavio.wotan.client.ratings.PlayerRatingsResponse.Ratings;
 
 /**
  * https://eu.wargaming.net/developers/api_reference/wot/ratings/types/
@@ -22,33 +18,30 @@ public class RatingsGroup extends AbstractGroup {
 	/**
 	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/types/
 	 */
-	public Map<RatingType, RatingsTypesResponse.Ratings> types() {
-		return client.execute(new RatingsTypesRequest()).getData();
+	public RatingsTypesRequest types() {
+		return new RatingsTypesRequest(client);
 	}
 
 	/**
 	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/dates/
+	 * @return 
 	 */
-	public void dates(RatingType type) {
-		client.execute(new RatingsDatesRequest(type)).getData();
+	public RatingsDatesRequest dates(RatingType type) {
+		return new RatingsDatesRequest(client, type);
 	}
 
 	/**
 	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/accounts/
 	 */
-	public Map<Long, Ratings> player(int account_id, RatingType type) {
-		PlayerRatingsRequest request = new PlayerRatingsRequest(account_id);
-		request.setType(type);
-		return client.execute(request).getData();
+	public PlayerRatingsRequest player(int account_id, RatingType type) {
+		return new PlayerRatingsRequest(client, account_id).setType(type);
 	}
 
 	/**
 	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/neighbors/
 	 */
-	public List<PlayerRatingsResponse.Ratings> neighbors(int account_id, RatingType type, String rank_field) {
-		NeighborsRatingsRequest request = new NeighborsRatingsRequest(account_id);
-		request.setType(type).setRankField(rank_field);
-		return client.execute(request).getData();
+	public NeighborsRatingsRequest neighbors(int account_id, RatingType type, String rank_field) {
+		return new NeighborsRatingsRequest(client, account_id).setType(type).setRankField(rank_field);
 	}
 
 }

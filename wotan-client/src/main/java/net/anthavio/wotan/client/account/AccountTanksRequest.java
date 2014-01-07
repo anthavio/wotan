@@ -3,6 +3,7 @@ package net.anthavio.wotan.client.account;
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
 import net.anthavio.wotan.client.AuthenticatedRequest;
+import net.anthavio.wotan.client.WotanClient;
 
 /**
  * https://eu.wargaming.net/developers/api_reference/wot/account/tanks/
@@ -17,8 +18,8 @@ public class AccountTanksRequest extends AuthenticatedRequest<AccountTanksReques
 	public static final MethodConfig<AccountTanksResponse> tanks = //
 	MethodConfig.GET("/wot/account/tanks/", AccountTanksResponse.class);
 
-	public AccountTanksRequest(long account_id, long... additional_ids) {
-		super(tanks, account_id, additional_ids);
+	public AccountTanksRequest(WotanClient client, long account_id, long... additional_ids) {
+		super(tanks, client, account_id, additional_ids);
 	}
 
 	@Override

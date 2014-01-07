@@ -1,6 +1,7 @@
 package net.anthavio.wotan.client;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
@@ -36,12 +37,28 @@ public abstract class WotanRequest<B extends WotanRequest<?, R>, R extends Wotan
 
 	private final MethodConfig<R> config;
 
+	private final WotanClient client;
+
 	private Language language;
 
 	private String[] fields;
 
-	public WotanRequest(MethodConfig<R> config) {
+	private Long cacheSeconds;
+
+	public WotanRequest(MethodConfig<R> config, WotanClient client) {
+		if (config == null) {
+			throw new IllegalArgumentException("Null config");
+		}
 		this.config = config;
+
+		if (client == null) {
+			throw new IllegalArgumentException("Null client");
+		}
+		this.client = client;
+	}
+
+	public R execute() {
+		return client.execute(this);
 	}
 
 	public MethodConfig<R> getConfig() {
@@ -66,6 +83,15 @@ public abstract class WotanRequest<B extends WotanRequest<?, R>, R extends Wotan
 	public B setFields(String[] fields) {
 		this.fields = fields;
 		return getSelf();
+	}
+
+	public B setCache(int value, TimeUnit unit) {
+		this.cacheSeconds = unit.toSeconds(value);
+		return getSelf();
+	}
+
+	public Long getCacheSeconds() {
+		return this.cacheSeconds;
 	}
 
 	public SenderRequest buildRequest() {

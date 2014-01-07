@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import net.anthavio.wotan.client.account.AccountListResponse.AccountStub;
-import net.anthavio.wotan.web.vaadin.SessionData;
+import net.anthavio.wotan.web.SessionData;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,13 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Panel;
@@ -42,11 +44,13 @@ public class MainView extends Panel implements View {
 
 	public static final String NAME = "";
 
+	public static final ExternalResource link = new ExternalResource("#!" + NAME);
+
 	@Autowired
 	private SessionData sessionData;
 
 	TextField accountName = new TextField("Account");
-	Button accountSearch = new Button("View");
+	Button accountSearch = new Button("Search");
 	VerticalLayout layoutResults = new VerticalLayout();
 
 	@PostConstruct
@@ -75,7 +79,7 @@ public class MainView extends Panel implements View {
 				String value = accountName.getValue();
 				if (!StringUtils.isEmpty(value)) {
 					try {
-						List<AccountStub> accounts = sessionData.getClient().account().list(value);
+						List<AccountStub> accounts = sessionData.getClient().account().list(value).execute().getData();
 						if (accounts.size() == 0) {
 							Notification.show("Nothing found", Type.WARNING_MESSAGE);
 							accountName.setComponentError(new UserError("Nothing found"));
@@ -98,7 +102,7 @@ public class MainView extends Panel implements View {
 			}
 		});
 
-		HorizontalLayout accLayout = new HorizontalLayout();
+		Layout accLayout = new FormLayout();
 		accLayout.addComponent(accountName);
 		accLayout.addComponent(accountSearch);
 
@@ -149,22 +153,25 @@ public class MainView extends Panel implements View {
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		String parameters = event.getParameters();
-		String[] split = parameters.split("/");
-		if (split.length == 2) {
-			String type = split[0];
-			String value = split[1];
-			if (type.equals("account")) {
-				accountName.setValue(value);
-				accountSearch.click();
-			} else if (value.equals("clan")) {
-				//TODO ... clan
+		if (!StringUtils.isBlank(parameters)) {
+
+			String[] split = parameters.split("/");
+			if (split.length == 2) {
+				String type = split[0];
+				String value = split[1];
+				if (type.equals("account")) {
+					accountName.setValue(value);
+					accountSearch.click();
+				} else if (value.equals("clan")) {
+					//TODO ... clan
+				} else {
+					Notification.show("Unknown value" + value + " for " + type);
+				}
+			} else if (split.length == 0) {
+				//nothing to do...
 			} else {
-				Notification.show("Unknown value" + value + " for " + type);
+				Notification.show("Bugger! '" + parameters + "' ");
 			}
-		} else if (split.length == 0) {
-			//nothing to do...
-		} else {
-			Notification.show("Bugger! " + parameters);
 		}
 	}
 }

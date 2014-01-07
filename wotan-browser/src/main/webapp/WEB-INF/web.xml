@@ -43,14 +43,14 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>net.anthavio.conserv.web.api.MvcSpringConfig</param-value>
+			<param-value>net.anthavio.wotan.web.mvc.MvcSpringConfig</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>DispatcherServlet</servlet-name>
-		<url-pattern>/api/*</url-pattern>
+		<url-pattern>/oauth/*</url-pattern>
 	</servlet-mapping>
 
 	<context-param>

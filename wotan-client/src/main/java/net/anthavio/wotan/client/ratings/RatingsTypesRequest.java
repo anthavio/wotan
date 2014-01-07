@@ -2,6 +2,7 @@ package net.anthavio.wotan.client.ratings;
 
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
+import net.anthavio.wotan.client.WotanClient;
 import net.anthavio.wotan.client.WotanRequest;
 
 /**
@@ -16,8 +17,8 @@ public class RatingsTypesRequest extends WotanRequest<RatingsTypesRequest, Ratin
 	public static MethodConfig<RatingsTypesResponse> config = MethodConfig.GET("/wot/ratings/types/",
 			RatingsTypesResponse.class);
 
-	public RatingsTypesRequest() {
-		super(config);
+	public RatingsTypesRequest(WotanClient client) {
+		super(config, client);
 	}
 
 	@Override

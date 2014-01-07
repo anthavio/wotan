@@ -1,5 +1,9 @@
 package net.anthavio.wotan.web.vaadin;
 
+import java.net.MalformedURLException;
+
+import net.anthavio.wotan.web.SessionData;
+import net.anthavio.wotan.web.WebappSpringConfig;
 import net.anthavio.wotan.web.vaadin.view.SettingsView;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.ui.UI;
 
 /**
@@ -35,6 +40,9 @@ public class WotanVaadinUI extends UI implements ErrorHandler, ViewChangeListene
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
+	private WebappSpringConfig config;
+
+	@Autowired
 	private transient ApplicationContext applicationContext;
 
 	@Autowired
@@ -53,6 +61,11 @@ public class WotanVaadinUI extends UI implements ErrorHandler, ViewChangeListene
 		//Notification.show(String.format("Session counter: %d, application counter: %d", sessionCounter.getCount(),
 		//		applicationCounter.getCount()));
 
+		try {
+			config.init((VaadinServletRequest) request);
+		} catch (MalformedURLException mux) {
+			mux.printStackTrace();
+		}
 	}
 
 	@Override
@@ -80,7 +93,7 @@ public class WotanVaadinUI extends UI implements ErrorHandler, ViewChangeListene
 			} else {
 				allow = false;//intercept view change
 				getSession().setAttribute(SettingsView.VIEW_AFTER_LOGIN_KEY, event.getViewName());
-				UI.getCurrent().getNavigator().navigateTo(SettingsView.NAME);
+				/*UI.getCurrent().*/getNavigator().navigateTo(SettingsView.NAME);
 			}
 		}
 

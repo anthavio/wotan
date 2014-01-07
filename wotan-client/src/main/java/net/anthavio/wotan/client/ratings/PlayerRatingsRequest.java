@@ -5,6 +5,7 @@ import java.util.Date;
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
 import net.anthavio.wotan.client.AuthenticatedRequest;
+import net.anthavio.wotan.client.WotanClient;
 
 /**
  * 
@@ -24,8 +25,8 @@ public class PlayerRatingsRequest extends AuthenticatedRequest<PlayerRatingsRequ
 
 	private Date date;
 
-	public PlayerRatingsRequest(long account_id, long... additional_ids) {
-		super(config, account_id, additional_ids);
+	public PlayerRatingsRequest(WotanClient client, long account_id, long... additional_ids) {
+		super(config, client, account_id, additional_ids);
 	}
 
 	public RatingType getType() {

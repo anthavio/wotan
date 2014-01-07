@@ -2,8 +2,8 @@ package net.anthavio.wotan.client.account;
 
 import java.util.List;
 
-import net.anthavio.wotan.client.WotanResponse;
 import net.anthavio.wotan.client.JsonStringBuilder;
+import net.anthavio.wotan.client.WotanResponse;
 
 /**
  * 
@@ -44,6 +44,15 @@ public class AccountListResponse extends WotanResponse {
 		private String nickname;
 
 		private Long id;
+
+		public AccountStub() {
+			//json
+		}
+
+		public AccountStub(Long id, String nickname) {
+			this.id = id;
+			this.nickname = nickname;
+		}
 
 		//private Long account_id; //same value as id
 

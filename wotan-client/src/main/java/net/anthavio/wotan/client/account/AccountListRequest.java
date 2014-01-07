@@ -2,6 +2,7 @@ package net.anthavio.wotan.client.account;
 
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
+import net.anthavio.wotan.client.WotanClient;
 import net.anthavio.wotan.client.WotanRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,15 +17,15 @@ public class AccountListRequest extends WotanRequest<AccountListRequest, Account
 
 	private static final long serialVersionUID = 1L;
 
-	public static final MethodConfig<AccountListResponse> list = //
+	public static final MethodConfig<AccountListResponse> config = //
 	MethodConfig.GET("/wot/account/list/", AccountListResponse.class);
 
 	private String search;
 
 	private Integer limit;
 
-	public AccountListRequest(String search) {
-		super(list);
+	public AccountListRequest(WotanClient client, String search) {
+		super(config, client);
 		this.search = search;
 	}
 

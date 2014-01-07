@@ -27,8 +27,8 @@ public abstract class AuthenticatedRequest<B extends AuthenticatedRequest<?, R>,
 	}
 	*/
 
-	public AuthenticatedRequest(MethodConfig<R> config, long[] account_ids) {
-		super(config);
+	public AuthenticatedRequest(MethodConfig<R> config, WotanClient client, long[] account_ids) {
+		super(config, client);
 
 		if (account_ids == null || account_ids.length == 0) {
 			throw new IllegalArgumentException("Empty account id array");
@@ -41,8 +41,8 @@ public abstract class AuthenticatedRequest<B extends AuthenticatedRequest<?, R>,
 		}
 	}
 
-	public AuthenticatedRequest(MethodConfig<R> config, long account_id, long... additional_ids) {
-		super(config);
+	public AuthenticatedRequest(MethodConfig<R> config, WotanClient client, long account_id, long... additional_ids) {
+		super(config, client);
 		this.account_id = account_id;
 		this.additional_ids = additional_ids;
 	}

@@ -3,6 +3,7 @@ package net.anthavio.wotan.client.account;
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
 import net.anthavio.wotan.client.AuthenticatedRequest;
+import net.anthavio.wotan.client.WotanClient;
 
 /**
  * https://eu.wargaming.net/developers/api_reference/wot/account/info/
@@ -17,8 +18,8 @@ public class AccountInfoRequest extends AuthenticatedRequest<AccountInfoRequest,
 	public static final MethodConfig<AccountInfoResponse> config = //
 	MethodConfig.GET("/wot/account/info/", AccountInfoResponse.class);
 
-	public AccountInfoRequest(long account_id, long... additional_ids) {
-		super(config, account_id, additional_ids);
+	public AccountInfoRequest(WotanClient client, long account_id, long... additional_ids) {
+		super(config, client, account_id, additional_ids);
 	}
 
 	@Override

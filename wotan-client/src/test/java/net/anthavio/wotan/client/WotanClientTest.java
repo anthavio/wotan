@@ -46,7 +46,7 @@ public class WotanClientTest {
 		//Ratings type = client.ratings().types().get(RatingType.ALL);
 		//System.out.println(type);
 
-		client.ratings().dates(RatingType.ALL);
+		client.ratings().dates(RatingType.ALL).execute().getData();
 		//System.out.println(type);
 
 		//Map<Long, PlayerRatings> player = client.ratings().player(504644777, RatingType.MONTH);

@@ -2,13 +2,18 @@ package net.anthavio.wotan.client;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import net.anthavio.cache.CacheBase;
 import net.anthavio.httl.HttpSender;
 import net.anthavio.httl.HttpURLSender;
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.SenderResponse;
+import net.anthavio.httl.cache.CachedResponse;
+import net.anthavio.httl.cache.CachingSender;
 import net.anthavio.wotan.client.WotanResponse.Status;
 import net.anthavio.wotan.client.account.AccountGroup;
+import net.anthavio.wotan.client.auth.AuthHelper;
 import net.anthavio.wotan.client.clan.ClanGroup;
 import net.anthavio.wotan.client.encyclopedia.EncyclopediaGroup;
 import net.anthavio.wotan.client.ratings.RatingsGroup;
@@ -29,6 +34,8 @@ public class WotanClient implements Closeable {
 
 	private final HttpSender sender;
 
+	private final CachingSender cachingSender;
+
 	private final ObjectMapper mapper;
 
 	public WotanClient(String applicationId) {
@@ -36,10 +43,18 @@ public class WotanClient implements Closeable {
 	}
 
 	public WotanClient(WotanSettings settings) {
-		this(settings, new HttpURLSender(settings.getServerUrl()));
+		this(settings, new HttpURLSender(settings.getServerUrl()), null);
 	}
 
 	public WotanClient(WotanSettings settings, HttpSender sender) {
+		this(settings, sender, null);
+	}
+
+	public WotanClient(WotanSettings settings, CacheBase<CachedResponse> cache) {
+		this(settings, new HttpURLSender(settings.getServerUrl()), cache);
+	}
+
+	public WotanClient(WotanSettings settings, HttpSender sender, CacheBase<CachedResponse> cache) {
 		if (settings == null) {
 			throw new IllegalArgumentException("Null settings");
 		}
@@ -50,6 +65,12 @@ public class WotanClient implements Closeable {
 		}
 		this.sender = sender;
 
+		if (cache != null) {
+			cachingSender = new CachingSender(sender, cache);
+		} else {
+			cachingSender = null;
+		}
+
 		this.mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		//SimpleModule testModule = new SimpleModule("MyModule", new Version(1, 0, 0, null)).addDeserializer(MyType.class,
@@ -58,6 +79,10 @@ public class WotanClient implements Closeable {
 
 	public WotanSettings getSettings() {
 		return settings;
+	}
+
+	public AuthHelper authentication() {
+		return new AuthHelper(this);
 	}
 
 	public AccountGroup account() {
@@ -84,10 +109,23 @@ public class WotanClient implements Closeable {
 			sr.addParameter("language", settings.getLanguage().getCode());
 		}
 
-		SenderResponse response = this.sender.execute(sr);
+		SenderResponse response;
+		if (cachingSender != null) {
+
+			Long cacheSeconds = request.getCacheSeconds();
+			if (cacheSeconds == null) {
+				cacheSeconds = settings.getCacheSeconds();
+			}
+			if (cacheSeconds == null) {
+				cacheSeconds = 10 * 60l;
+			}
+			response = this.cachingSender.from(sr).evictTtl(cacheSeconds, TimeUnit.SECONDS).execute();
+		} else {
+			response = this.sender.execute(sr);
+		}
 
 		try {
-			T value = mapper.readValue(response.getStream(), request.getConfig().getResponseClass());
+			T value = mapper.readValue(response.getReader(), request.getConfig().getResponseClass());
 			if (value.getStatus() == Status.error) {
 				throw new WotanException(value.getError());
 			}
@@ -100,4 +138,5 @@ public class WotanClient implements Closeable {
 	public void close() {
 		sender.close();
 	}
+
 }

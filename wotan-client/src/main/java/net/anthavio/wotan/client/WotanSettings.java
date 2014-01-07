@@ -18,9 +18,7 @@ public class WotanSettings {
 
 	private Language language;
 
-	public WotanSettings(String applicationId) {
-		this("http://api.worldoftanks.eu", applicationId);
-	}
+	private Long cacheSeconds;
 
 	public WotanSettings(String serverUrl, String applicationId) {
 		if (serverUrl == null || serverUrl.length() == 0) {
@@ -56,6 +54,18 @@ public class WotanSettings {
 
 	public void setLanguage(Language language) {
 		this.language = language;
+	}
+
+	public Long getCacheSeconds() {
+		return cacheSeconds;
+	}
+
+	public void setCacheSeconds(Long cacheSeconds) {
+		this.cacheSeconds = cacheSeconds;
+	}
+
+	public WotanSettings(String applicationId) {
+		this("http://api.worldoftanks.eu", applicationId);
 	}
 
 }

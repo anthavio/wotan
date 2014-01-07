@@ -2,6 +2,7 @@ package net.anthavio.wotan.client.ratings;
 
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
+import net.anthavio.wotan.client.WotanClient;
 import net.anthavio.wotan.client.WotanRequest;
 
 /**
@@ -19,8 +20,8 @@ public class RatingsDatesRequest extends WotanRequest<RatingsDatesRequest, Ratin
 
 	private RatingType type;
 
-	public RatingsDatesRequest(RatingType type) {
-		super(config);
+	public RatingsDatesRequest(WotanClient client, RatingType type) {
+		super(config, client);
 		this.type = type;
 	}
 

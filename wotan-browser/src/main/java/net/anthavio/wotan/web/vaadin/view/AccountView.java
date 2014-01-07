@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.anthavio.wotan.client.account.AccountInfoResponse.AccountInfo;
 import net.anthavio.wotan.client.account.AccountListResponse.AccountStub;
-import net.anthavio.wotan.web.vaadin.SessionData;
+import net.anthavio.wotan.web.SessionData;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ import com.vaadin.ui.TextArea;
 @VaadinView(value = AccountView.NAME, cached = true)
 public class AccountView extends Panel implements View {
 
-	public static final String NAME = "AccountView";
+	public static final String NAME = "account";
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,11 +42,13 @@ public class AccountView extends Panel implements View {
 
 	public AccountView() {
 		setSizeFull();
+		textArea.setWidth("20em");
+		textArea.setHeight("30em");
 		setContent(textArea);
 	}
 
 	public void display(long accountId) {
-		Map<Long, AccountInfo> info = sessionData.getClient().account().info(accountId);
+		Map<Long, AccountInfo> info = sessionData.getClient().account().info(accountId).execute().getData();
 		AccountInfo account = info.values().iterator().next();
 
 		textArea.setValue(account.toString());
@@ -58,7 +60,7 @@ public class AccountView extends Panel implements View {
 			display(accountId);
 		} catch (NumberFormatException nfx) {
 			//not numeric accountId -> accountName search
-			List<AccountStub> accounts = sessionData.getClient().account().list(parameter);
+			List<AccountStub> accounts = sessionData.getClient().account().list(parameter).execute().getData();
 			if (accounts.size() == 1) {
 				Long accountId = accounts.get(0).getId();
 				display(accountId);

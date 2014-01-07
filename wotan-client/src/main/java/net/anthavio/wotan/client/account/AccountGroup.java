@@ -1,13 +1,7 @@
 package net.anthavio.wotan.client.account;
 
-import java.util.List;
-import java.util.Map;
-
 import net.anthavio.wotan.client.AbstractGroup;
 import net.anthavio.wotan.client.WotanClient;
-import net.anthavio.wotan.client.account.AccountInfoResponse.AccountInfo;
-import net.anthavio.wotan.client.account.AccountListResponse.AccountStub;
-import net.anthavio.wotan.client.account.AccountTanksResponse.PlayersTank;
 
 /**
  * https://eu.wargaming.net/developers/api_reference/wot/account/list/
@@ -26,17 +20,15 @@ public class AccountGroup extends AbstractGroup {
 	 * 
 	 * https://eu.wargaming.net/developers/api_reference/wot/account/list/
 	 */
-	public List<AccountStub> list(String search) {
-		AccountListRequest request = new AccountListRequest(search);
-		return client.execute(request).getData();
+	public AccountListRequest list(String search) {
+		return new AccountListRequest(client, search);
 	}
 
 	/**
 	 * TODO https://eu.wargaming.net/developers/api_reference/wot/account/info/
 	 */
-	public Map<Long, AccountInfo> info(long account_id, long... additional_ids) {
-		AccountInfoRequest request = new AccountInfoRequest(account_id, additional_ids);
-		return client.execute(request).getData();
+	public AccountInfoRequest info(long account_id, long... additional_ids) {
+		return new AccountInfoRequest(client, account_id, additional_ids);
 	}
 
 	/**
@@ -51,9 +43,8 @@ public class AccountGroup extends AbstractGroup {
 	 * TODO https://eu.wargaming.net/developers/api_reference/wot/account/tanks/
 	 * @return 
 	 */
-	public Map<Long, List<PlayersTank>> tanks(long account_id, long... additional_ids) {
-		AccountTanksRequest request = new AccountTanksRequest(account_id, additional_ids);
-		return client.execute(request).getData();
+	public AccountTanksRequest tanks(long account_id, long... additional_ids) {
+		return new AccountTanksRequest(client, account_id, additional_ids);
 	}
 
 }
