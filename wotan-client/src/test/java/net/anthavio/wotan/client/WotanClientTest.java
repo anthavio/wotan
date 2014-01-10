@@ -1,10 +1,12 @@
 package net.anthavio.wotan.client;
 
+import java.util.Map;
 import java.util.Properties;
 
 import net.anthavio.httl.HttpClient4Sender;
 import net.anthavio.httl.HttpSender;
 import net.anthavio.wotan.client.ratings.RatingType;
+import net.anthavio.wotan.client.ratings.RatingsDatesResponse.Data;
 
 /**
  * 
@@ -30,8 +32,8 @@ public class WotanClientTest {
 		WotanSettings settings = new WotanSettings(props.getProperty("app.id"));
 		HttpSender sender = new HttpClient4Sender(settings.getServerUrl());
 		WotanClient client = new WotanClient(settings, sender);
-		//List<Account> list = client.account().list("anthavio");
-		//System.out.println(list);
+		//List<AccountStub> accounts = client.account().list("anthavio").execute().getData();
+		//System.out.println(accounts);
 
 		//Map<String, AccountInfo> info = client.account().info(504644777, 504644666);
 		//System.out.println(info);
@@ -46,7 +48,8 @@ public class WotanClientTest {
 		//Ratings type = client.ratings().types().get(RatingType.ALL);
 		//System.out.println(type);
 
-		client.ratings().dates(RatingType.ALL).execute().getData();
+		Map<RatingType, Data> data = client.ratings().dates(RatingType.MONTH).execute().getData();
+		System.out.println(data);
 		//System.out.println(type);
 
 		//Map<Long, PlayerRatings> player = client.ratings().player(504644777, RatingType.MONTH);

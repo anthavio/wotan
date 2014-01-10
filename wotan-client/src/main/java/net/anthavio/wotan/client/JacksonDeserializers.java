@@ -1,10 +1,13 @@
 package net.anthavio.wotan.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
@@ -65,6 +68,20 @@ public class JacksonDeserializers {
 		@Override
 		public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			return new Date(jp.getLongValue() * 1000l);
+		}
+
+	}
+
+	public static class WotDateListDeserializer extends JsonDeserializer<List<Date>> {
+
+		@Override
+		public List<Date> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException,
+				JsonProcessingException {
+			List<Date> list = new ArrayList<Date>();
+			while (jp.nextToken() != JsonToken.END_ARRAY) {
+				list.add(new Date(jp.getLongValue() * 1000l));
+			}
+			return list;
 		}
 
 	}

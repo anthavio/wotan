@@ -15,6 +15,7 @@ import ru.xpoft.vaadin.VaadinView;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -22,6 +23,7 @@ import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
@@ -54,14 +56,16 @@ public class SettingsView extends Panel implements View {
 	@Autowired
 	private WebappSpringConfig config;
 
-	Layout layApplication = new HorizontalLayout();
-	TextField tfApplication = new TextField();
-	Button setButton = new Button("Set");
-	TextField tfCacheMinutes = new TextField();
+	Layout layout = new FormLayout();
+	//Layout layApplication = new HorizontalLayout();
+	TextField tfApplication = new TextField("Application");
+	TextField tfCacheMinutes = new TextField("Cache");
 
 	Layout layAccount = new HorizontalLayout();
-	TextField tfAccessToken = new TextField();
-	Link linkAuthentication = new Link("Authentication", null);
+	TextField tfAccessToken = new TextField("AccesToken");
+	//Link linkAuthentication = new Link("Authentication", null);
+
+	Button submitButton = new Button("Submit");
 
 	Link linkMain = new Link("Main", new ExternalResource("#!" + MainView.NAME));
 
@@ -80,7 +84,8 @@ public class SettingsView extends Panel implements View {
 		tfApplication.setNullSettingAllowed(false);
 		tfApplication.setImmediate(true);
 		tfApplication
-				.setDescription("Application ID is 32 characters long alphanumeric string. Standalone type must be used, NOT server");
+				.setDescription("Application ID is 32 characters long alphanumeric string. "
+						+ "Standalone application type must be used. Configure <a href='https://www.wargaming.net/developers/applications/' target='_blank'>applications</a>");
 
 		tfApplication.setWidth("18em");
 		tfApplication.setMaxLength(32);
@@ -90,9 +95,10 @@ public class SettingsView extends Panel implements View {
 			@Override
 			public void textChange(TextChangeEvent event) {
 				if (event.getText() != null && event.getText().length() == 32) {
-					setButton.setEnabled(true);
-				} else if (setButton.isEnabled()) {
-					setButton.setEnabled(false);
+					submitButton.setEnabled(true);
+					submitButton.setClickShortcut(KeyCode.ENTER);
+				} else if (submitButton.isEnabled()) {
+					submitButton.setEnabled(false);
 				}
 			}
 		});
@@ -100,12 +106,13 @@ public class SettingsView extends Panel implements View {
 		tfCacheMinutes.setRequired(true);
 		tfCacheMinutes.setValue("30");
 		tfCacheMinutes.setConverter(Integer.class);
-		tfCacheMinutes.addValidator(new IntegerRangeValidator("Only numbers from 1 to 60", 1, 60));
+		tfCacheMinutes.addValidator(new IntegerRangeValidator("Only numbers from 0 to 60", 0, 60));
 		tfCacheMinutes.setRequired(true);
 		tfCacheMinutes.setImmediate(true);
+		tfCacheMinutes.setDescription("Minutes to keep any response in cache. 0 disables caching.");
 
-		setButton.setEnabled(false);
-		setButton.addClickListener(new ClickListener() {
+		submitButton.setEnabled(false);
+		submitButton.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -130,22 +137,18 @@ public class SettingsView extends Panel implements View {
 			}
 		});
 
-		linkApplication.setWidth("7em");
-		layApplication.addComponent(linkApplication);
-		layApplication.addComponent(tfApplication);
-		layApplication.addComponent(tfCacheMinutes);
-		layApplication.addComponent(setButton);
-
-		linkAuthentication.setWidth("7em");
-		layAccount.addComponent(linkAuthentication);
-		layAccount.addComponent(tfAccessToken);
-
 		tfAccessToken.setWidth("22em");
+		tfAccessToken.setNullRepresentation("");
 		tfAccessToken.setReadOnly(true);
 
+		linkApplication.setWidth("7em");
+		layout.addComponent(tfApplication);
+		layout.addComponent(tfCacheMinutes);
+		layout.addComponent(tfAccessToken);
+		layout.addComponent(submitButton);
+
 		Layout layout = new VerticalLayout();
-		layout.addComponent(layApplication);
-		layout.addComponent(layAccount);
+		layout.addComponent(this.layout);
 		layout.addComponent(linkMain);
 
 		setCaption("Settings");
@@ -155,10 +158,18 @@ public class SettingsView extends Panel implements View {
 
 	@PostConstruct
 	public void init() {
-		linkAuthentication.setResource(new ExternalResource(config.getWebappUrl() + "/oauth/request"));
+		//linkAuthentication.setResource(new ExternalResource(config.getWebappUrl() + "/oauth/request"));
 		tfAccessToken.setReadOnly(false);
 		tfAccessToken.setValue(sessionData.getAccessToken());
 		tfAccessToken.setReadOnly(true);
+		String authUrl = config.getWebappUrl() + "/oauth/request";
+		if (sessionData.getAccount() == null) {
+			tfAccessToken.setDescription("To access non public data, your access token is required. <a href='" + authUrl
+					+ "'>Login</a> to you Wargaming account");
+		} else {
+			tfAccessToken.setDescription("You are logged in as " + sessionData.getAccount().getNickname() + "("
+					+ sessionData.getAccount().getId() + "). <a href='" + authUrl + "'>Change</a> your Wargaming account");
+		}
 		/*
 		Button apply = new Button("Save", new Button.ClickListener() {
 			public void buttonClick(Button.ClickEvent event) {
@@ -179,7 +190,7 @@ public class SettingsView extends Panel implements View {
 		if (sessionData.getClient() != null) {
 			tfApplication.setValue(sessionData.getClient().getSettings().getApplicationId());
 			tfApplication.setComponentError(null);
-			setButton.setEnabled(true);
+			submitButton.setEnabled(true);
 			layAccount.setVisible(true);
 			linkMain.setVisible(true);
 		} else {

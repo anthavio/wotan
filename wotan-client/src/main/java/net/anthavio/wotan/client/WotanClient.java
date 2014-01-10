@@ -18,6 +18,9 @@ import net.anthavio.wotan.client.clan.ClanGroup;
 import net.anthavio.wotan.client.encyclopedia.EncyclopediaGroup;
 import net.anthavio.wotan.client.ratings.RatingsGroup;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -29,6 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public class WotanClient implements Closeable {
+
+	private static final Logger logger = LoggerFactory.getLogger(WotanClient.class);
 
 	private final WotanSettings settings;
 
@@ -77,6 +82,22 @@ public class WotanClient implements Closeable {
 		//		new MyTypeDeserializer());
 	}
 
+	public CacheBase<CachedResponse> getCache() {
+		if (cachingSender != null) {
+			return cachingSender.getCache();
+		} else {
+			return null;
+		}
+	}
+
+	public void close() {
+		if (cachingSender != null) {
+			cachingSender.close();
+		} else {
+			sender.close();
+		}
+	}
+
 	public WotanSettings getSettings() {
 		return settings;
 	}
@@ -121,6 +142,9 @@ public class WotanClient implements Closeable {
 			}
 			response = this.cachingSender.from(sr).evictTtl(cacheSeconds, TimeUnit.SECONDS).execute();
 		} else {
+			if (request.getCacheSeconds() != null || settings.getCacheSeconds() != null) {
+				logger.warn("Cache is not configured, setting cache time is futile.");
+			}
 			response = this.sender.execute(sr);
 		}
 
@@ -133,10 +157,6 @@ public class WotanClient implements Closeable {
 		} catch (IOException iox) {
 			throw new WotanException(iox);
 		}
-	}
-
-	public void close() {
-		sender.close();
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import net.anthavio.wotan.client.account.AccountListResponse.AccountStub;
+import net.anthavio.wotan.client.clan.Clan;
 import net.anthavio.wotan.web.SessionData;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,7 @@ import ru.xpoft.vaadin.VaadinView;
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ExternalResource;
@@ -23,8 +25,8 @@ import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Layout;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Panel;
@@ -49,105 +51,128 @@ public class MainView extends Panel implements View {
 	@Autowired
 	private SessionData sessionData;
 
-	TextField accountName = new TextField("Account");
-	Button accountSearch = new Button("Search");
+	TextField tfAccount = new TextField();
+	Button btAccount = new Button("Search");
+
+	TextField tfClan = new TextField();
+	Button buClan = new Button("Search");
+
 	VerticalLayout layoutResults = new VerticalLayout();
 
+	/*
+		public static void bound(final TextField textField, final Button button, final int min) {
+
+			textField.addTextChangeListener(new TextChangeListener() {
+
+				@Override
+				public void textChange(TextChangeEvent event) {
+					if (event.getText() != null && event.getText().length() >= min) {
+						button.setEnabled(true);
+					} else if (button.isEnabled()) {
+						button.setEnabled(false);
+					}
+				}
+			});
+
+			if (textField.getValue() != null && textField.getValue().length() >= min) {
+				button.setEnabled(true);
+			} else {
+				button.setEnabled(false);
+			}
+			
+			button.addClickListener(new ClickListener() {
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					String value = textField.getValue();
+					if (!StringUtils.isEmpty(value)) {
+						searchAccount(value);
+					}
+
+				}
+			});
+		}
+	*/
 	@PostConstruct
 	public void init() {
 		setSizeFull();
 
-		accountName.setRequired(true);
-		accountName.setRequiredError("Please enter a Name!");
-		accountName.addTextChangeListener(new TextChangeListener() {
+		tfAccount.setRequired(true);
+		tfAccount.setRequiredError("Please enter a Name!");
+		tfAccount.addTextChangeListener(new TextChangeListener() {
 
 			@Override
 			public void textChange(TextChangeEvent event) {
 				if (event.getText() != null && event.getText().length() >= 3) {
-					accountSearch.setEnabled(true);
-				} else if (accountSearch.isEnabled()) {
-					accountSearch.setEnabled(false);
+					btAccount.setEnabled(true);
+					buClan.removeClickShortcut();
+					btAccount.setClickShortcut(KeyCode.ENTER);
+				} else if (btAccount.isEnabled()) {
+					btAccount.setEnabled(false);
 				}
 			}
 		});
 
-		accountSearch.setEnabled(false);
-		accountSearch.addClickListener(new ClickListener() {
+		btAccount.setEnabled(false);
+		btAccount.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				String value = accountName.getValue();
+				String value = tfAccount.getValue();
 				if (!StringUtils.isEmpty(value)) {
-					try {
-						List<AccountStub> accounts = sessionData.getClient().account().list(value).execute().getData();
-						if (accounts.size() == 0) {
-							Notification.show("Nothing found", Type.WARNING_MESSAGE);
-							accountName.setComponentError(new UserError("Nothing found"));
-						} else if (accounts.size() == 1) {
-							Long accountId = accounts.get(0).getId();
-							getUI().getNavigator().navigateTo(AccountView.NAME + "/" + accountId);
-						} else {
-							display(accounts);
-							//display list to choose
-							//System.out.println(account.s);
-						}
-					} catch (final Exception x) {
-						x.printStackTrace();
-						UserError error = new UserError(x.getMessage());//, ErrorLevel.WARNING);
-						accountName.setComponentError(error);
-						Notification.show("Something failed: " + x.getMessage());
-					}
+					searchAccount(value);
 				}
 
 			}
 		});
 
-		Layout accLayout = new FormLayout();
-		accLayout.addComponent(accountName);
-		accLayout.addComponent(accountSearch);
+		GridLayout accLayout = new GridLayout(3, 1, new Label("Account"), tfAccount, btAccount);
+		accLayout.setSpacing(true);
+		accLayout.setMargin(true);
+
+		tfClan.setRequired(true);
+		tfClan.setRequiredError("Please enter a Name!");
+		tfClan.addTextChangeListener(new TextChangeListener() {
+
+			@Override
+			public void textChange(TextChangeEvent event) {
+				if (event.getText() != null && event.getText().length() >= 3) {
+					buClan.setEnabled(true);
+					btAccount.removeClickShortcut();
+					buClan.setClickShortcut(KeyCode.ENTER);
+				} else if (buClan.isEnabled()) {
+					buClan.setEnabled(false);
+				}
+			}
+		});
+
+		buClan.setEnabled(false);
+		buClan.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				String value = tfClan.getValue();
+				if (!StringUtils.isEmpty(value)) {
+					searchClan(value);
+				}
+			}
+		});
+
+		GridLayout clanLayout = new GridLayout(3, 1, new Label("Clan"), tfClan, buClan);
+		clanLayout.setSpacing(true);
+		clanLayout.setMargin(true);
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 		layout.setMargin(true);
 
 		layout.addComponent(accLayout);
+		layout.addComponent(clanLayout);
 
 		layout.addComponent(layoutResults);
 
 		//layout.addComponent(new Link("Go to the UI scoped View", new ExternalResource("#!" + UIScopedView.NAME)));
 		setContent(layout);
-	}
-
-	public void display(List<AccountStub> accounts) {
-		layoutResults.removeAllComponents();
-
-		Table table = new Table("Accounts: " + accounts.size());
-		//table.setSelectable(true);
-		//table.setImmediate(true);
-
-		table.addContainerProperty("Id", Long.class, null);
-		table.addContainerProperty("Nickname", String.class, null);
-		table.addContainerProperty("Details", Button.class, null);
-
-		for (AccountStub account : accounts) {
-			Button bView = new Button("View");
-			bView.setData(account.getId());
-			bView.addClickListener(new Button.ClickListener() {
-				public void buttonClick(ClickEvent event) {
-					Long accountId = (Long) event.getButton().getData();
-					getUI().getNavigator().navigateTo(AccountView.NAME + "/" + accountId);
-				}
-			});
-			bView.addStyleName("link");
-
-			table.addItem(new Object[] { account.getId(), account.getNickname(), bView }, account.getId());
-
-		}
-
-		//table.setSizeFull();
-
-		layoutResults.addComponent(table);
-		//layoutResults.setSizeFull();
 	}
 
 	@Override
@@ -160,8 +185,8 @@ public class MainView extends Panel implements View {
 				String type = split[0];
 				String value = split[1];
 				if (type.equals("account")) {
-					accountName.setValue(value);
-					accountSearch.click();
+					tfAccount.setValue(value);
+					btAccount.click();
 				} else if (value.equals("clan")) {
 					//TODO ... clan
 				} else {
@@ -174,4 +199,104 @@ public class MainView extends Panel implements View {
 			}
 		}
 	}
+
+	private void searchAccount(String value) {
+		try {
+			List<AccountStub> accounts = sessionData.getClient().account().list(value).execute().getData();
+			if (accounts.size() == 0) {
+				Notification.show("Nothing found", Type.WARNING_MESSAGE);
+				tfAccount.setComponentError(new UserError("Nothing found"));
+			} else if (accounts.size() == 1) {
+				Long accountId = accounts.get(0).getId();
+				getUI().getNavigator().navigateTo(AccountView.NAME + "/" + accountId);
+			} else {
+				displayAccounts(accounts);
+				//display list to choose
+				//System.out.println(account.s);
+			}
+		} catch (final Exception x) {
+			x.printStackTrace();
+			UserError error = new UserError(x.getMessage());//, ErrorLevel.WARNING);
+			tfAccount.setComponentError(error);
+			Notification.show("Something failed: " + x.getMessage());
+		}
+	}
+
+	protected void searchClan(String value) {
+		try {
+			List<Clan> clans = sessionData.getClient().clan().list(value).execute().getData();
+			if (clans.size() == 0) {
+				Notification.show("Nothing found", Type.WARNING_MESSAGE);
+				tfAccount.setComponentError(new UserError("Nothing found"));
+			} else if (clans.size() == 1) {
+				Long id = clans.get(0).getClan_id();
+				getUI().getNavigator().navigateTo(AccountView.NAME + "/" + id);
+			} else {
+				displayClans(clans);
+				//display list to choose
+				//System.out.println(account.s);
+			}
+		} catch (final Exception x) {
+			x.printStackTrace();
+			UserError error = new UserError(x.getMessage());//, ErrorLevel.WARNING);
+			tfClan.setComponentError(error);
+			Notification.show("Clan search failed: " + x.getMessage());
+		}
+	}
+
+	public void displayAccounts(List<AccountStub> accounts) {
+		layoutResults.removeAllComponents();
+
+		Table table = new Table("Accounts: " + accounts.size());
+		//table.setSelectable(true);
+		//table.setImmediate(true);
+
+		table.addContainerProperty("Id", Button.class, null);
+		table.addContainerProperty("Nickname", String.class, null);
+
+		for (AccountStub account : accounts) {
+			Button bView = new Button(String.valueOf(account.getId()));
+			bView.setData(account.getId());
+			bView.addClickListener(new Button.ClickListener() {
+				public void buttonClick(ClickEvent event) {
+					Long accountId = (Long) event.getButton().getData();
+					getUI().getNavigator().navigateTo(AccountView.NAME + "/" + accountId);
+				}
+			});
+			bView.addStyleName("link");
+
+			table.addItem(new Object[] { bView, account.getNickname() }, account.getId());
+
+		}
+		layoutResults.addComponent(table);
+	}
+
+	private void displayClans(List<Clan> clans) {
+		layoutResults.removeAllComponents();
+
+		Table table = new Table("Accounts: " + clans.size());
+		//table.setSelectable(true);
+		//table.setImmediate(true);
+
+		table.addContainerProperty("Id", Button.class, null);
+		table.addContainerProperty("Name", String.class, null);
+		table.addContainerProperty("Members", Integer.class, null);
+
+		for (Clan clan : clans) {
+			Button bView = new Button(String.valueOf(clan.getClan_id()));
+			bView.setData(clan.getClan_id());
+			bView.addClickListener(new Button.ClickListener() {
+				public void buttonClick(ClickEvent event) {
+					Long accountId = (Long) event.getButton().getData();
+					getUI().getNavigator().navigateTo(AccountView.NAME + "/" + accountId);
+				}
+			});
+			bView.addStyleName("link");
+
+			table.addItem(new Object[] { bView, clan.getName(), clan.getMembers_count() }, clan.getClan_id());
+
+		}
+		layoutResults.addComponent(table);
+	}
+
 }

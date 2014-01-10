@@ -28,19 +28,19 @@ public class RatingsTypesResponse extends WotanResponse {
 	}
 
 	public Ratings getDay() {
-		return data.get("1");
+		return get(RatingType.DAY);
 	}
 
 	public Ratings getWeek() {
-		return data.get("7");
+		return get(RatingType.WEEK);
 	}
 
 	public Ratings getMonth() {
-		return data.get("28");
+		return get(RatingType.MONTH);
 	}
 
 	public Ratings getAll() {
-		return data.get("all");
+		return get(RatingType.ALL);
 	}
 
 	public static class Ratings implements Serializable {
@@ -81,5 +81,10 @@ public class RatingsTypesResponse extends WotanResponse {
 		public String toString() {
 			return JsonStringBuilder.toString(this, true);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return JsonStringBuilder.toString(this, true);
 	}
 }

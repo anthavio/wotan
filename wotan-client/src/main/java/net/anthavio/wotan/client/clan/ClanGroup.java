@@ -18,8 +18,8 @@ public class ClanGroup extends AbstractGroup {
 	/**
 	 * TODO https://eu.wargaming.net/developers/api_reference/wot/clan/list/
 	 */
-	public void list() {
-
+	public ClanListRequest list(String search) {
+		return new ClanListRequest(client, search);
 	}
 
 	/**

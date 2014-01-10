@@ -23,10 +23,6 @@ public class SessionData {
 	private WotanClient wotanClient;
 
 	public WotanClient initClient(String applicationId, long cacheSeconds) {
-		if (wotanClient != null) {
-			wotanClient.close();
-		}
-
 		WotanClient wotanClient;
 		WotanSettings settings = new WotanSettings(applicationId);
 		if (cacheSeconds > 0) {
@@ -40,6 +36,12 @@ public class SessionData {
 
 		//validate via executing rest call
 		wotanClient.ratings().types().execute().getData();
+		//if no exception is thrown....
+		if (this.wotanClient != null) {
+			//kill existing
+			this.wotanClient.close();
+		}
+
 		this.wotanClient = wotanClient;
 		return wotanClient;
 	}
