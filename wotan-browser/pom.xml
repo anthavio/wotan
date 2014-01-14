@@ -327,7 +327,7 @@
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
 						<configuration>
-							<outputDirectory>../webapps</outputDirectory> <!--one directory up-->
+							<outputDirectory>webapps</outputDirectory> <!--one directory up-->
 							<warName>ROOT</warName>
 						</configuration>
 					</plugin>
