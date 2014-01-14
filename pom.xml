@@ -234,4 +234,23 @@
 		</plugins>
 	</build>
 	
+	<profiles>
+		<profile>
+			<id>openshift</id>
+			<repositories>
+				<repository>
+					<id>sonatype-oss-public</id>
+					<url>https://oss.sonatype.org/content/groups/public</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+
+		</profile>
+	</profiles>
+	
 </project>
