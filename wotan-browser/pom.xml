@@ -318,4 +318,22 @@
 		
 	</build>
 	
+	<profiles>
+		<profile>
+			<id>openshift</id>
+			<build>
+				<finalName>wotan</finalName>
+				<plugins>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<outputDirectory>../webapps</outputDirectory> <!--one directory up-->
+							<warName>ROOT</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
 </project>
