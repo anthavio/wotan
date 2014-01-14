@@ -241,6 +241,23 @@
 			<build>
 				<pluginManagement>
 					<plugins>
+						<!--
+							Git repo is checked out into /var/lib/openshift/52d5741450044610e8000284/app-root/runtime/repo
+							and Maven is started in this directory. 
+							Deployable artifacts, mainly ROOT.war, must be copiend into
+							/var/lib/openshift/52d5741450044610e8000284/app-root/runtime/repo/webapps/ROOT.war
+							
+							Because wotan-browser is module in subdirectory and I would expect <outputDirectory>../webapps</outputDirectory> value 
+							but interestingly it is not true and it must be <outputDirectory>webapps</outputDirectory>
+							-->
+						<plugin>
+							<artifactId>maven-war-plugin</artifactId>
+							<configuration>
+								<outputDirectory>webapps</outputDirectory>
+								<warName>wotan</warName>
+							</configuration>
+						</plugin>
+						
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-enforcer-plugin</artifactId>
@@ -248,6 +265,7 @@
 								<skip>true</skip>
 							</configuration>
 						</plugin>
+						
 					</plugins>
 				</pluginManagement>
 			</build>
