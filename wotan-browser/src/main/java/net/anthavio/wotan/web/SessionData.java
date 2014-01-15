@@ -1,5 +1,7 @@
 package net.anthavio.wotan.web;
 
+import java.io.Serializable;
+
 import net.anthavio.cache.CacheBase;
 import net.anthavio.cache.HeapMapCache;
 import net.anthavio.httl.cache.CachedResponse;
@@ -14,13 +16,15 @@ import net.anthavio.wotan.client.account.AccountListResponse.AccountStub;
  * @author martin.vanek
  *
  */
-public class SessionData {
+public class SessionData implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String accessToken;
 
 	private AccountStub account;
 
-	private WotanClient wotanClient;
+	private transient WotanClient wotanClient;
 
 	public WotanClient initClient(String applicationId, long cacheSeconds) {
 		WotanClient wotanClient;
