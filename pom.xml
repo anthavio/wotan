@@ -169,7 +169,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.8.5</version>
+			<version>6.8.7</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -254,7 +254,8 @@
 							<artifactId>maven-war-plugin</artifactId>
 							<configuration>
 								<outputDirectory>webapps</outputDirectory>
-								<warName>wotan</warName>
+								<warName>wotan</warName> <!-- http://wotan-anthavio.rhcloud.com/wotan -->
+								<!-- <warName>ROOT</warName> http://wotan-anthavio.rhcloud.com/-->
 							</configuration>
 						</plugin>
 						
