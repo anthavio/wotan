@@ -84,20 +84,7 @@ public abstract class AuthenticatedRequest<B extends AuthenticatedRequest<?, R>,
 			}
 		}
 
-		if (additional_ids != null && additional_ids.length != 0) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(account_id).append(',');
-
-			for (int i = 0; i < additional_ids.length; i++) {
-				sb.append(additional_ids[i]);
-				if (i < additional_ids.length - 1) {
-					sb.append(',');
-				}
-			}
-			request.addParameter("account_id", sb.toString());
-		} else {
-			request.addParameter("account_id", account_id);
-		}
+		request.addParameter("account_id", toIdList(account_id, additional_ids));
 
 		return request;
 	}

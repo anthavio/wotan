@@ -25,26 +25,25 @@ public class AccountGroup extends AbstractGroup {
 	}
 
 	/**
-	 * TODO https://eu.wargaming.net/developers/api_reference/wot/account/info/
+	 * https://eu.wargaming.net/developers/api_reference/wot/account/info/
 	 */
 	public AccountInfoRequest info(long account_id, long... additional_ids) {
 		return new AccountInfoRequest(client, account_id, additional_ids);
 	}
 
 	/**
-	 * TODO https://eu.wargaming.net/developers/api_reference/wot/account/ratings/
-	 */
-	@Deprecated
-	public void ratings() {
-
-	}
-
-	/**
-	 * TODO https://eu.wargaming.net/developers/api_reference/wot/account/tanks/
-	 * @return 
+	 * https://eu.wargaming.net/developers/api_reference/wot/account/tanks/
 	 */
 	public AccountTanksRequest tanks(long account_id, long... additional_ids) {
 		return new AccountTanksRequest(client, account_id, additional_ids);
+	}
+
+	/**
+	 * https://eu.wargaming.net/developers/api_reference/wot/account/ratings/
+	 */
+	@Deprecated
+	public void ratings() {
+		throw new UnsupportedOperationException("Use client.ratings().player(int account_id)");
 	}
 
 }

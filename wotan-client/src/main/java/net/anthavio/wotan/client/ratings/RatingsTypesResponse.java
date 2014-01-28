@@ -17,33 +17,33 @@ public class RatingsTypesResponse extends WotanResponse {
 	private static final long serialVersionUID = 1L;
 
 	//"1","7","28","all"
-	private Map<RatingType, Ratings> data;
+	private Map<RatingType, RatingsTypesData> data;
 
-	public Map<RatingType, Ratings> getData() {
+	public Map<RatingType, RatingsTypesData> getData() {
 		return data;
 	}
 
-	public Ratings get(RatingType type) {
+	public RatingsTypesData get(RatingType type) {
 		return data.get(type.getCode());
 	}
 
-	public Ratings getDay() {
+	public RatingsTypesData getDay() {
 		return get(RatingType.DAY);
 	}
 
-	public Ratings getWeek() {
+	public RatingsTypesData getWeek() {
 		return get(RatingType.WEEK);
 	}
 
-	public Ratings getMonth() {
+	public RatingsTypesData getMonth() {
 		return get(RatingType.MONTH);
 	}
 
-	public Ratings getAll() {
+	public RatingsTypesData getAll() {
 		return get(RatingType.ALL);
 	}
 
-	public static class Ratings implements Serializable {
+	public static class RatingsTypesData implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 

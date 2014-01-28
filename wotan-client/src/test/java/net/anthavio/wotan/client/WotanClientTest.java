@@ -5,8 +5,7 @@ import java.util.Properties;
 
 import net.anthavio.httl.HttpClient4Sender;
 import net.anthavio.httl.HttpSender;
-import net.anthavio.wotan.client.ratings.RatingType;
-import net.anthavio.wotan.client.ratings.RatingsDatesResponse.Data;
+import net.anthavio.wotan.client.encyclopedia.VehicleInfoResponse.VehicleInfo;
 
 /**
  * 
@@ -48,16 +47,25 @@ public class WotanClientTest {
 		//Ratings type = client.ratings().types().get(RatingType.ALL);
 		//System.out.println(type);
 
-		Map<RatingType, Data> data = client.ratings().dates(RatingType.MONTH).execute().getData();
+		//Map<Long, Vehicle> vehicles = client.encyclopedia().tanks().execute().getData();
+		//System.out.println(vehicles);
+
+		Map<Long, VehicleInfo> data = client.encyclopedia().tankinfo(4929, 3153).execute().getData();
 		System.out.println(data);
-		//System.out.println(type);
+
+		//List<Clan> topclans = client.clan().top().execute().getData();
+		//System.out.println(topclans);
+		//Map<Long, Member> data = client.clan().member(504644666, 504644777, 504644669).execute().getData();
+		//System.out.println(data);
 
 		//Map<Long, PlayerRatings> player = client.ratings().player(504644777, RatingType.MONTH);
 		//System.out.println(player);
 
-		//List<Ratings> neighbors = client.ratings().neighbors(504644777, RatingType.ALL, "battles_count_rank");
-		//System.out.println(neighbors);
+		//Map<RatingType, RatingsTypesData> types = client.ratings().types().execute().getData();
+		//System.out.println(types);
+
+		//List<Ratings> top = client.ratings().top(RatingType.MONTH, RankField.damage_avg_rank).execute().getData();
+		//System.out.println(top);
 
 	}
-
 }

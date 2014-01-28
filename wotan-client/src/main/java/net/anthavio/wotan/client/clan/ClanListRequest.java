@@ -24,7 +24,7 @@ public class ClanListRequest extends WotanRequest<ClanListRequest, ClanListRespo
 
 	private Integer limit;
 
-	//TODO private 
+	//TODO private order_by 
 
 	public ClanListRequest(WotanClient client, String search) {
 		super(config, client);

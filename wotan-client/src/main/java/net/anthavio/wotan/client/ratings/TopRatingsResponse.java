@@ -11,7 +11,7 @@ import net.anthavio.wotan.client.ratings.PlayerRatingsResponse.Ratings;
  * @author martin.vanek
  *
  */
-public class NeighborsRatingsResponse extends WotanResponse {
+public class TopRatingsResponse extends WotanResponse {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,4 +25,5 @@ public class NeighborsRatingsResponse extends WotanResponse {
 	public String toString() {
 		return JsonStringBuilder.toString(this, true);
 	}
+
 }

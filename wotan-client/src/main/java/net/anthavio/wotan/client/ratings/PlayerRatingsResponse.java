@@ -34,31 +34,31 @@ public class PlayerRatingsResponse extends WotanResponse {
 
 		private Integer battles_to_play;
 
-		private PlayerRating battles_count;
+		private RankDeltaValue battles_count;
 
-		private PlayerRating damage_avg;
+		private RankDeltaValue damage_avg;
 
-		private PlayerRating damage_dealt;
+		private RankDeltaValue damage_dealt;
 
-		private PlayerRating frags_avg;
+		private RankDeltaValue frags_avg;
 
-		private PlayerRating frags_count;
+		private RankDeltaValue frags_count;
 
-		private PlayerRating hits_ratio;
+		private RankDeltaValue hits_ratio;
 
-		private PlayerRating spotted_avg;
+		private RankDeltaValue spotted_avg;
 
-		private PlayerRating spotted_count;
+		private RankDeltaValue spotted_count;
 
-		private PlayerRating survived_ratio;
+		private RankDeltaValue survived_ratio;
 
-		private PlayerRating wins_ratio;
+		private RankDeltaValue wins_ratio;
 
-		private PlayerRating xp_amount;
+		private RankDeltaValue xp_amount;
 
-		private PlayerRating xp_avg;
+		private RankDeltaValue xp_avg;
 
-		private PlayerRating xp_max;
+		private RankDeltaValue xp_max;
 
 		public Long getAccount_id() {
 			return account_id;
@@ -76,107 +76,107 @@ public class PlayerRatingsResponse extends WotanResponse {
 			this.battles_to_play = battles_to_play;
 		}
 
-		public PlayerRating getBattles_count() {
+		public RankDeltaValue getBattles_count() {
 			return battles_count;
 		}
 
-		public void setBattles_count(PlayerRating battles_count) {
+		public void setBattles_count(RankDeltaValue battles_count) {
 			this.battles_count = battles_count;
 		}
 
-		public PlayerRating getDamage_avg() {
+		public RankDeltaValue getDamage_avg() {
 			return damage_avg;
 		}
 
-		public void setDamage_avg(PlayerRating damage_avg) {
+		public void setDamage_avg(RankDeltaValue damage_avg) {
 			this.damage_avg = damage_avg;
 		}
 
-		public PlayerRating getDamage_dealt() {
+		public RankDeltaValue getDamage_dealt() {
 			return damage_dealt;
 		}
 
-		public void setDamage_dealt(PlayerRating damage_dealt) {
+		public void setDamage_dealt(RankDeltaValue damage_dealt) {
 			this.damage_dealt = damage_dealt;
 		}
 
-		public PlayerRating getFrags_avg() {
+		public RankDeltaValue getFrags_avg() {
 			return frags_avg;
 		}
 
-		public void setFrags_avg(PlayerRating frags_avg) {
+		public void setFrags_avg(RankDeltaValue frags_avg) {
 			this.frags_avg = frags_avg;
 		}
 
-		public PlayerRating getFrags_count() {
+		public RankDeltaValue getFrags_count() {
 			return frags_count;
 		}
 
-		public void setFrags_count(PlayerRating frags_count) {
+		public void setFrags_count(RankDeltaValue frags_count) {
 			this.frags_count = frags_count;
 		}
 
-		public PlayerRating getHits_ratio() {
+		public RankDeltaValue getHits_ratio() {
 			return hits_ratio;
 		}
 
-		public void setHits_ratio(PlayerRating hits_ratio) {
+		public void setHits_ratio(RankDeltaValue hits_ratio) {
 			this.hits_ratio = hits_ratio;
 		}
 
-		public PlayerRating getSpotted_avg() {
+		public RankDeltaValue getSpotted_avg() {
 			return spotted_avg;
 		}
 
-		public void setSpotted_avg(PlayerRating spotted_avg) {
+		public void setSpotted_avg(RankDeltaValue spotted_avg) {
 			this.spotted_avg = spotted_avg;
 		}
 
-		public PlayerRating getSpotted_count() {
+		public RankDeltaValue getSpotted_count() {
 			return spotted_count;
 		}
 
-		public void setSpotted_count(PlayerRating spotted_count) {
+		public void setSpotted_count(RankDeltaValue spotted_count) {
 			this.spotted_count = spotted_count;
 		}
 
-		public PlayerRating getSurvived_ratio() {
+		public RankDeltaValue getSurvived_ratio() {
 			return survived_ratio;
 		}
 
-		public void setSurvived_ratio(PlayerRating survived_ratio) {
+		public void setSurvived_ratio(RankDeltaValue survived_ratio) {
 			this.survived_ratio = survived_ratio;
 		}
 
-		public PlayerRating getWins_ratio() {
+		public RankDeltaValue getWins_ratio() {
 			return wins_ratio;
 		}
 
-		public void setWins_ratio(PlayerRating wins_ratio) {
+		public void setWins_ratio(RankDeltaValue wins_ratio) {
 			this.wins_ratio = wins_ratio;
 		}
 
-		public PlayerRating getXp_amount() {
+		public RankDeltaValue getXp_amount() {
 			return xp_amount;
 		}
 
-		public void setXp_amount(PlayerRating xp_amount) {
+		public void setXp_amount(RankDeltaValue xp_amount) {
 			this.xp_amount = xp_amount;
 		}
 
-		public PlayerRating getXp_avg() {
+		public RankDeltaValue getXp_avg() {
 			return xp_avg;
 		}
 
-		public void setXp_avg(PlayerRating xp_avg) {
+		public void setXp_avg(RankDeltaValue xp_avg) {
 			this.xp_avg = xp_avg;
 		}
 
-		public PlayerRating getXp_max() {
+		public RankDeltaValue getXp_max() {
 			return xp_max;
 		}
 
-		public void setXp_max(PlayerRating xp_max) {
+		public void setXp_max(RankDeltaValue xp_max) {
 			this.xp_max = xp_max;
 		}
 
@@ -190,7 +190,7 @@ public class PlayerRatingsResponse extends WotanResponse {
 		}
 	}
 
-	public static class PlayerRating implements Serializable {
+	public static class RankDeltaValue implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 

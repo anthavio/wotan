@@ -4,7 +4,6 @@ import net.anthavio.wotan.client.AbstractGroup;
 import net.anthavio.wotan.client.WotanClient;
 
 /**
- * https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tanks/
  * 
  * @author martin.vanek
  *
@@ -16,17 +15,52 @@ public class EncyclopediaGroup extends AbstractGroup {
 	}
 
 	/**
-	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tanks/
+	 * https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tanks/
 	 */
-	public void tanks() {
-
+	public VehiclesRequest tanks() {
+		return new VehiclesRequest(client);
 	}
 
 	/**
-	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankinfo/
+	 * https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankinfo/
 	 */
-	public void tankinfo() {
+	public VehicleInfoRequest tankinfo(long tank_id, long... tank_ids) {
+		return new VehicleInfoRequest(client, tank_id, tank_ids);
+	}
 
+	/**
+	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankengines/
+	 */
+	public void engines() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankturrets/
+	 */
+	public void turrets() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankradios/
+	 */
+	public void radios() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankchassis/
+	 */
+	public void suspensions() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * TODO https://eu.wargaming.net/developers/api_reference/wot/encyclopedia/tankguns/
+	 */
+	public void guns() {
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 }

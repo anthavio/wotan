@@ -4,22 +4,22 @@ import java.util.Date;
 
 import net.anthavio.httl.SenderRequest;
 import net.anthavio.httl.rest.MethodConfig;
-import net.anthavio.wotan.client.AuthenticatedRequest;
 import net.anthavio.wotan.client.WotanClient;
+import net.anthavio.wotan.client.WotanRequest;
 
 /**
  * 
- * https://eu.wargaming.net/developers/api_reference/wot/ratings/neighbors/
+ * https://eu.wargaming.net/developers/api_reference/wot/ratings/top/
  * 
  * @author martin.vanek
  *
  */
-public class NeighborsRatingsRequest extends AuthenticatedRequest<NeighborsRatingsRequest, NeighborsRatingsResponse> {
+public class TopRatingsRequest extends WotanRequest<TopRatingsRequest, TopRatingsResponse> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static MethodConfig<NeighborsRatingsResponse> config = MethodConfig.GET("/wot/ratings/neighbors/",
-			NeighborsRatingsResponse.class);
+	public static MethodConfig<TopRatingsResponse> config = MethodConfig.GET("/wot/ratings/top/",
+			TopRatingsResponse.class);
 
 	private RatingType type;
 
@@ -29,15 +29,15 @@ public class NeighborsRatingsRequest extends AuthenticatedRequest<NeighborsRatin
 
 	private Integer limit;
 
-	public NeighborsRatingsRequest(WotanClient client, long account_id, long... additional_ids) {
-		super(config, client, account_id, additional_ids);
+	public TopRatingsRequest(WotanClient client) {
+		super(config, client);
 	}
 
 	public RatingType getType() {
 		return type;
 	}
 
-	public NeighborsRatingsRequest setType(RatingType type) {
+	public TopRatingsRequest setType(RatingType type) {
 		this.type = type;
 		return getSelf();
 	}
@@ -46,7 +46,7 @@ public class NeighborsRatingsRequest extends AuthenticatedRequest<NeighborsRatin
 		return date;
 	}
 
-	public NeighborsRatingsRequest setDate(Date date) {
+	public TopRatingsRequest setDate(Date date) {
 		this.date = date;
 		return getSelf();
 	}
@@ -55,7 +55,7 @@ public class NeighborsRatingsRequest extends AuthenticatedRequest<NeighborsRatin
 		return rank_field;
 	}
 
-	public NeighborsRatingsRequest setRankField(RankField rank_field) {
+	public TopRatingsRequest setRankField(RankField rank_field) {
 		this.rank_field = rank_field;
 		return getSelf();
 	}
@@ -64,13 +64,13 @@ public class NeighborsRatingsRequest extends AuthenticatedRequest<NeighborsRatin
 		return limit;
 	}
 
-	public NeighborsRatingsRequest setLimit(Integer limit) {
+	public TopRatingsRequest setLimit(Integer limit) {
 		this.limit = limit;
 		return getSelf();
 	}
 
 	@Override
-	protected NeighborsRatingsRequest getSelf() {
+	protected TopRatingsRequest getSelf() {
 		return this;
 	}
 

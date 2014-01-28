@@ -33,15 +33,23 @@ public class RatingsGroup extends AbstractGroup {
 	/**
 	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/accounts/
 	 */
-	public PlayerRatingsRequest player(int account_id, RatingType type) {
-		return new PlayerRatingsRequest(client, account_id).setType(type);
+	public PlayerRatingsRequest player(RatingType type, long account_id, long... additional_ids) {
+		return new PlayerRatingsRequest(client, account_id, additional_ids).setType(type);
 	}
 
 	/**
 	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/neighbors/
 	 */
-	public NeighborsRatingsRequest neighbors(int account_id, RatingType type, String rank_field) {
-		return new NeighborsRatingsRequest(client, account_id).setType(type).setRankField(rank_field);
+	public NeighborsRatingsRequest neighbors(long account_id, RatingType type, RankField field) {
+		return new NeighborsRatingsRequest(client, account_id).setType(type).setRankField(field);
+	}
+
+	/**
+	 * https://eu.wargaming.net/developers/api_reference/wot/ratings/top/
+	 * @return 
+	 */
+	public TopRatingsRequest top(RatingType type, RankField field) {
+		return new TopRatingsRequest(client).setType(type).setRankField(field);
 	}
 
 }

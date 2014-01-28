@@ -1,6 +1,8 @@
 package net.anthavio.wotan.client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import net.anthavio.httl.SenderRequest;
@@ -116,5 +118,44 @@ public abstract class WotanRequest<B extends WotanRequest<?, R>, R extends Wotan
 	}
 
 	protected abstract void addParameters(SenderRequest request);
+
+	public static String toIdList(long first, long[] others) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(first);
+		if (others != null && others.length != 0) {
+			sb.append(',');
+			for (int i = 0; i < others.length; ++i) {
+				long o = others[i];
+				sb.append(o);
+				if (i < others.length - 1) {
+					sb.append(',');
+				}
+			}
+		}
+		return sb.toString();
+	}
+
+	public static String toIdList(List<?> ids) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < ids.size(); ++i) {
+			Object id = ids.get(i);
+			sb.append(id);
+			if (i < ids.size() - 1) {
+				sb.append(',');
+			}
+		}
+		return sb.toString();
+	}
+
+	public static List<Long> toList(long first, long... others) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		list.add(first);
+		if (others != null && others.length != 0) {
+			for (long id : others) {
+				list.add(id);
+			}
+		}
+		return list;
+	}
 
 }
