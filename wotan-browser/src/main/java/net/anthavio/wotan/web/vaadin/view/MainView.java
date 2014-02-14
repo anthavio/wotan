@@ -274,7 +274,7 @@ public class MainView extends Panel implements View {
 	private void displayClans(List<Clan> clans) {
 		layoutResults.removeAllComponents();
 
-		Table table = new Table("Accounts: " + clans.size());
+		Table table = new Table("Results: " + clans.size());
 		//table.setSelectable(true);
 		//table.setImmediate(true);
 

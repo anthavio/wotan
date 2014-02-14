@@ -1,6 +1,6 @@
 package net.anthavio.wotan.browser;
 
-import net.anthavio.jetty.JettyWrapper;
+import net.anthavio.sewer.jetty.JettyWrapper;
 
 /**
  * Main class in IDE
