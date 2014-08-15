@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="wotan-browser">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
@@ -8,13 +7,10 @@
         <dependent-module archiveName="wotan-client-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wotan-client/wotan-client">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="hatatitla-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hatatitla/hatatitla">
+        <dependent-module archiveName="hatatitla-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/hatatitla/hatatitla">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="anthavio-spring-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/anthavio-spring/anthavio-spring">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="anthavio-commons-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/anthavio-commons/anthavio-commons">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="anthavio-sewer-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/anthavio-sewer/anthavio-sewer">

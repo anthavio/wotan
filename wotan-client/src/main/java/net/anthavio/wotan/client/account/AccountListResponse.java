@@ -45,16 +45,16 @@ public class AccountListResponse extends WotanResponse {
 
 		private Long id;
 
+		private Long account_id;
+
 		public AccountStub() {
 			//json
 		}
 
-		public AccountStub(Long id, String nickname) {
-			this.id = id;
+		public AccountStub(Long account_id, String nickname) {
+			this.account_id = account_id;
 			this.nickname = nickname;
 		}
-
-		//private Long account_id; //same value as id
 
 		public String getNickname() {
 			return nickname;
@@ -70,6 +70,14 @@ public class AccountListResponse extends WotanResponse {
 
 		public void setId(Long id) {
 			this.id = id;
+		}
+
+		public Long getAccount_id() {
+			return account_id;
+		}
+
+		public void setAccount_id(Long account_id) {
+			this.account_id = account_id;
 		}
 
 		@Override

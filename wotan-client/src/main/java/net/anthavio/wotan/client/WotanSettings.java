@@ -20,6 +20,10 @@ public class WotanSettings {
 
 	private Long cacheSeconds;
 
+	public WotanSettings(String applicationId) {
+		this("http://api.worldoftanks.eu", applicationId);
+	}
+
 	public WotanSettings(String serverUrl, String applicationId) {
 		if (serverUrl == null || serverUrl.length() == 0) {
 			throw new IllegalArgumentException("Blank serverUrl");
@@ -62,10 +66,6 @@ public class WotanSettings {
 
 	public void setCacheSeconds(Long cacheSeconds) {
 		this.cacheSeconds = cacheSeconds;
-	}
-
-	public WotanSettings(String applicationId) {
-		this("http://api.worldoftanks.eu", applicationId);
 	}
 
 }

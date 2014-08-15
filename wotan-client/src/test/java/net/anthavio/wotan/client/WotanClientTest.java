@@ -1,11 +1,10 @@
 package net.anthavio.wotan.client;
 
-import java.util.Map;
 import java.util.Properties;
 
-import net.anthavio.httl.HttpClient4Sender;
-import net.anthavio.httl.HttpSender;
-import net.anthavio.wotan.client.encyclopedia.VehicleInfoResponse.VehicleInfo;
+import net.anthavio.httl.SenderBuilder;
+import net.anthavio.httl.transport.HttpClient4Config;
+import net.anthavio.wotan.client.account.AccountInfoResponse;
 
 /**
  * 
@@ -29,8 +28,11 @@ public class WotanClientTest {
 		Properties props = new Properties();
 		props.load(getClass().getResourceAsStream("/wotan-test.properties"));
 		WotanSettings settings = new WotanSettings(props.getProperty("app.id"));
-		HttpSender sender = new HttpClient4Sender(settings.getServerUrl());
-		WotanClient client = new WotanClient(settings, sender);
+		SenderBuilder builder = new HttpClient4Config(settings.getServerUrl());
+		WotanClient client = new WotanClient(settings, builder);
+		AccountInfoResponse list = client.accounts().info("ccf63417f78252093287c7d430828c24e47fa9e9", 504644777, 504644666);
+		System.out.println(list.getData());
+
 		//List<AccountStub> accounts = client.account().list("anthavio").execute().getData();
 		//System.out.println(accounts);
 
@@ -50,8 +52,8 @@ public class WotanClientTest {
 		//Map<Long, Vehicle> vehicles = client.encyclopedia().tanks().execute().getData();
 		//System.out.println(vehicles);
 
-		Map<Long, VehicleInfo> data = client.encyclopedia().tankinfo(4929, 3153).execute().getData();
-		System.out.println(data);
+		//Map<Long, VehicleInfo> data = client.encyclopedia().tankinfo(4929, 3153).execute().getData();
+		//System.out.println(data);
 
 		//List<Clan> topclans = client.clan().top().execute().getData();
 		//System.out.println(topclans);
@@ -66,6 +68,7 @@ public class WotanClientTest {
 
 		//List<Ratings> top = client.ratings().top(RatingType.MONTH, RankField.damage_avg_rank).execute().getData();
 		//System.out.println(top);
+		client.close();
 
 	}
 }
