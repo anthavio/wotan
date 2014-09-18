@@ -9,7 +9,7 @@ import net.anthavio.httl.HttlParameterSetter.ConfigurableParamSetter;
 import net.anthavio.httl.HttlRequestBuilders.HttlRequestBuilder;
 import net.anthavio.httl.HttlSender;
 import net.anthavio.httl.HttlSender.Multival;
-import net.anthavio.httl.SenderBuilder;
+import net.anthavio.httl.SenderConfigurer;
 import net.anthavio.httl.api.HttlApiBuilder;
 import net.anthavio.httl.cache.CachedResponse;
 import net.anthavio.httl.cache.CachingSender;
@@ -54,7 +54,7 @@ public class WotanClient implements Closeable {
 		this(settings, new HttpUrlConfig(settings.getServerUrl()), null);
 	}
 
-	public WotanClient(WotanSettings settings, SenderBuilder config) {
+	public WotanClient(WotanSettings settings, SenderConfigurer config) {
 		this(settings, config, null);
 	}
 
@@ -62,7 +62,7 @@ public class WotanClient implements Closeable {
 		this(settings, new HttpUrlConfig(settings.getServerUrl()), cache);
 	}
 
-	public WotanClient(final WotanSettings settings, SenderBuilder config, CacheBase<CachedResponse> cache) {
+	public WotanClient(final WotanSettings settings, SenderConfigurer config, CacheBase<CachedResponse> cache) {
 		if (settings == null) {
 			throw new IllegalArgumentException("Null settings");
 		}
