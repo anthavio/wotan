@@ -12,7 +12,7 @@
 	<packaging>war</packaging>
   
 	<properties>
-		<vaadin.version>7.1.11</vaadin.version>
+		<vaadin.version>7.3.1</vaadin.version>
 	</properties>
 
 	<repositories>

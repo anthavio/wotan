@@ -2,8 +2,8 @@ package net.anthavio.wotan.client;
 
 import java.util.Properties;
 
+import net.anthavio.httl.HttlBuilder;
 import net.anthavio.httl.SenderConfigurer;
-import net.anthavio.httl.transport.HttpClient4Config;
 import net.anthavio.wotan.client.account.AccountInfoResponse;
 
 /**
@@ -28,7 +28,7 @@ public class WotanClientTest {
 		Properties props = new Properties();
 		props.load(getClass().getResourceAsStream("/wotan-test.properties"));
 		WotanSettings settings = new WotanSettings(props.getProperty("app.id"));
-		SenderConfigurer builder = new HttpClient4Config(settings.getServerUrl());
+		SenderConfigurer builder = HttlBuilder.httpClient4(settings.getServerUrl()).sender();
 		WotanClient client = new WotanClient(settings, builder);
 		AccountInfoResponse list = client.accounts().info("ccf63417f78252093287c7d430828c24e47fa9e9", 504644777, 504644666);
 		System.out.println(list.getData());

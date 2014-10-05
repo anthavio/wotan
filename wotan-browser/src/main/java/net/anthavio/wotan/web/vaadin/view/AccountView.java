@@ -48,7 +48,7 @@ public class AccountView extends Panel implements View {
 	}
 
 	public void display(long accountId) {
-		Map<Long, AccountInfo> info = sessionData.getClient().account().info(accountId).execute().getData();
+		Map<Long, AccountInfo> info = sessionData.getClient().accounts().info(accountId).getData();
 		AccountInfo account = info.values().iterator().next();
 
 		textArea.setValue(account.toString());
@@ -60,7 +60,7 @@ public class AccountView extends Panel implements View {
 			display(accountId);
 		} catch (NumberFormatException nfx) {
 			//not numeric accountId -> accountName search
-			List<AccountStub> accounts = sessionData.getClient().account().list(parameter).execute().getData();
+			List<AccountStub> accounts = sessionData.getClient().accounts().list(parameter).getData();
 			if (accounts.size() == 1) {
 				Long accountId = accounts.get(0).getId();
 				display(accountId);

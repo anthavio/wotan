@@ -51,7 +51,7 @@ public class WotanClient implements Closeable {
 	private final ApiAccounts accountsApi;
 
 	public WotanClient(WotanSettings settings) {
-		this(settings, new HttpUrlConfig(settings.getServerUrl()), null);
+		this(settings, new HttpUrlConfig(settings.getServerUrl()).sender(), null);
 	}
 
 	public WotanClient(WotanSettings settings, SenderConfigurer config) {
@@ -59,7 +59,7 @@ public class WotanClient implements Closeable {
 	}
 
 	public WotanClient(WotanSettings settings, CacheBase<CachedResponse> cache) {
-		this(settings, new HttpUrlConfig(settings.getServerUrl()), cache);
+		this(settings, new HttpUrlConfig(settings.getServerUrl()).sender(), cache);
 	}
 
 	public WotanClient(final WotanSettings settings, SenderConfigurer config, CacheBase<CachedResponse> cache) {

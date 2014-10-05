@@ -3,8 +3,6 @@ package net.anthavio.wotan.client;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import net.anthavio.wotan.client.WotanRequest.Language;
-
 /**
  * 
  * @author martin.vanek
@@ -16,7 +14,7 @@ public class WotanSettings {
 
 	private final String applicationId;
 
-	private Language language;
+	private WotanLanguage language;
 
 	private Long cacheSeconds;
 
@@ -52,11 +50,11 @@ public class WotanSettings {
 		return serverUrl;
 	}
 
-	public Language getLanguage() {
+	public WotanLanguage getLanguage() {
 		return language;
 	}
 
-	public void setLanguage(Language language) {
+	public void setLanguage(WotanLanguage language) {
 		this.language = language;
 	}
 

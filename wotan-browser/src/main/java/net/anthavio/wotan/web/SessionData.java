@@ -3,7 +3,7 @@ package net.anthavio.wotan.web;
 import java.io.Serializable;
 
 import net.anthavio.cache.CacheBase;
-import net.anthavio.cache.HeapMapCache;
+import net.anthavio.cache.impl.HeapMapCache;
 import net.anthavio.httl.cache.CachedResponse;
 import net.anthavio.wotan.client.WotanClient;
 import net.anthavio.wotan.client.WotanSettings;
@@ -39,7 +39,7 @@ public class SessionData implements Serializable {
 		}
 
 		//validate via executing rest call
-		wotanClient.ratings().types().execute().getData();
+		wotanClient.ratings().types().getData();
 		//if no exception is thrown....
 		if (this.wotanClient != null) {
 			//kill existing

@@ -202,7 +202,7 @@ public class MainView extends Panel implements View {
 
 	private void searchAccount(String value) {
 		try {
-			List<AccountStub> accounts = sessionData.getClient().account().list(value).execute().getData();
+			List<AccountStub> accounts = sessionData.getClient().accounts().list(value).getData();
 			if (accounts.size() == 0) {
 				Notification.show("Nothing found", Type.WARNING_MESSAGE);
 				tfAccount.setComponentError(new UserError("Nothing found"));
